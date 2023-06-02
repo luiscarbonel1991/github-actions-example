@@ -15,7 +15,7 @@ jobs:
 
         - name: Write decryption key
           run: |
-            echo "${{ secrets.CRYPT_KEY }}" | base64 --decode > ~/.ssh/crypt.key
+            echo "${{ secrets.CRYPT_KEY }}" | base64 --decode > crypt.key
           env:
             GIT_CRYPT_KEY: ${{ secrets.CRYPT_KEY }}
 
