@@ -13,12 +13,17 @@ jobs:
         - name: Checkout project sources
           uses: actions/checkout@v3
 
-        - name: Write decryption key
+        - name: Get secrets
           run: |
-            echo "${{ secrets.CRYPT_KEY }}" > crypt.base64 
-            base64 -d crypt.base64 | gpg --batch --yes --passphrase-fd 0 --decrypt --output grpg.files/application-decrypt.yml grpg.files/application.yml.gpg
-            cat grpg.files/application-decrypt.yml
+            echo "${{ secrets.CRYPT_KEY }}" > crypt.key 
 
+        - name: Decrypt files
+          run: |
+            base64 -d crypt.key | gpg --batch --yes --passphrase-fd 0 --decrypt --output grpg.files/application-decrypt.yml grpg.files/application.yml.gpg
+            ls -la grpg.files
+
+        - name: Print decrypted file
+          run: cat grpg.files/application-decrypt.yml
 
 
 
